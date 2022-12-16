@@ -30,8 +30,6 @@ type Databases struct {
 	} `yaml:"sysconfig"`
 }
 
-type DataBase interface{}
-
 func main() {
 	checkInit()
 }
@@ -39,25 +37,10 @@ func main() {
 func checkInit() {
 	if !fileExists("./SYSTEM_INITIALIZED") {
 		checkDatabases()
-		createInit()
+		//		createInit()
 	} else {
 		fmt.Println("Starting The BBS Daemon...")
 	}
-}
-
-func readYaml(filename string) map[string]interface{} {
-	file, err := os.Open(filename)
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer file.Close()
-	decoder := yaml.NewDecoder(file)
-	var superList map[string]interface{}
-	err = decoder.Decode(&superList)
-	if err != nil {
-		fmt.Println(err)
-	}
-	return superList
 }
 
 func createInit() {
@@ -69,24 +52,20 @@ func createInit() {
 }
 
 // read yaml file and print key value
-func checkDatabases() {
+func checkDatabases() (*Databases, error) {
 	fmt.Printf("Checking Databases...\n")
-	out := Data{}
-	file, err := os.ReadFile("databases.yml")
-	fmt.Printf("File: %s\n", file)
-
+	databases := &Databases{}
+	file, err := os.Open("databases.yml")
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
-	if err := yaml.Unmarshal(file, &out); err != nil {
-		fmt.Println(err)
+	defer file.Close()
+	decoder := yaml.NewDecoder(file)
+	if err := decoder.Decode(&databases); err != nil {
+		return nil, err
 	}
-	for _, database := range out.DataBase {
-		fmt.Println("Got to the loop")
-		fmt.Println("Checking ", database)
-		fmt.Println(database.(string))
 
-	}
+	return databases, nil
 }
 
 func fileExists(bbsfile string) bool {
