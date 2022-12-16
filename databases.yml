@@ -1,0 +1,16 @@
+userdb:
+  - username: TEXT
+  - password: TEXT
+  - status: TEXT
+  - lastlogin: TEXT
+  - bulletins: TEXT
+  - active: NUMERIC
+  - security: TEXT
+  - messages: TEXT
+  - tagline: TEXT
+syscfg:
+  - bbsname: TEXT
+  - sysop: TEXT
+  - hostname: TEXT
+  - listenport: INTEGER
+  - homedir: TEXT
