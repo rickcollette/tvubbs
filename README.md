@@ -1,4 +1,4 @@
-# The Vulgar Unicorn Bulleting Board System
+# The Vulgar Unicorn Bulletin Board System
 <div align="center">Telnet multiuser bbs software in the spirit of the 80's</div>
 
 ---
