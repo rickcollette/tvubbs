@@ -157,6 +157,8 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4/go.mod h1:xMI15A0UPsDsEKsMN9yxemIoYk6Tm2C1GtYGdfGttqA=
 github.com/rickcollette/clui v0.0.0-20221216222118-d2f1bbb29faa h1:paxjvniYgN+ztEnGwtbXOmOFPZTJq/c8XMR+lisy4do=
 github.com/rickcollette/clui v0.0.0-20221216222118-d2f1bbb29faa/go.mod h1:ExXCI4eIIHbOC3bdH8MF3tMNucxw3TKblbckOkeqRE8=
+github.com/rickcollette/tvubbslib v0.0.0-20221217015803-6db6dbad6907 h1:fmFMsflC08Z2e/PB3JHa5HKvI5HqPNqnlBVVU4LEO4k=
+github.com/rickcollette/tvubbslib v0.0.0-20221217015803-6db6dbad6907/go.mod h1:8SNV1GqxUaLOMKK6WcfLjXPq19CqdIqiDGieHUCZ80E=
 github.com/rivo/uniseg v0.2.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
 github.com/rivo/uniseg v0.4.2 h1:YwD0ulJSJytLpiaWua0sBDusfsCZohxjxzVTYjwxfV8=
 github.com/rivo/uniseg v0.4.2/go.mod h1:FN3SvrM+Zdj16jyLfmOkMNblXMcoc8DfTHruCPUcx88=

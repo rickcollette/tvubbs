@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/rickcollette/tvubbs-lib"
+	"github.com/rickcollette/tvubbslib"
 	"fmt"
 	"github.com/spf13/viper"
 	"log"
@@ -36,12 +36,12 @@ func main() {
 	port := viper.GetInt(configPort)
 	logFilePath := viper.GetString(configLogPath)
 
-	r, err := chat.NewRoom("Torbit Chat Server", logFilePath)
+	r, err := tvubbslib.NewRoom("Torbit Chat Server", logFilePath)
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.Fatal(listenAndServe(port, func(conn net.Conn) {
-		r.Join(chat.NewChannel(conn), conn.RemoteAddr())
+		r.Join(tvubbslib.NewChannel(conn), conn.RemoteAddr())
 	}))
 }
 

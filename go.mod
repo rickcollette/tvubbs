@@ -34,6 +34,7 @@ require (
 
 require (
 	github.com/mattn/go-runewidth v0.0.14 // indirect
+	github.com/rickcollette/tvubbslib v0.0.0-20221217015803-6db6dbad6907
 	github.com/rivo/uniseg v0.4.2 // indirect
 	github.com/spf13/viper v1.14.0
 )
