@@ -1,104 +1,87 @@
 package main
 
 import (
-	"database/sql"
+	"chat"
 	"fmt"
+	"github.com/spf13/viper"
+	"log"
+	"net"
 	"os"
-
-	_ "github.com/mattn/go-sqlite3"
-	"gopkg.in/yaml.v3"
+	"os/signal"
 )
 
-type Databases struct {
-	Userdb struct {
-		Username  string `yaml:"username"`
-		Password  string `yaml:"password"`
-		Status    string `yaml:"status"`
-		Lastlogin string `yaml:"lastlogin"`
-		Bulletins string `yaml:"bulletins"`
-		Active    string `yaml:"active"`
-		Security  string `yaml:"security"`
-		Messages  string `yaml:"messages"`
-		Tagline   string `yaml:"tagline"`
-	} `yaml:"userdb"`
-	Sysconfig struct {
-		Bbsname    string `yaml:"bbsname"`
-		Sysop      string `yaml:"sysop"`
-		Hostname   string `yaml:"hostname"`
-		Listenport string `yaml:"listenport"`
-		Homedir    string `yaml:"homedir"`
-	} `yaml:"sysconfig"`
-}
+const (
+	configPort    = "port"
+	configLogPath = "log_file_path"
+)
 
 func main() {
-	checkInit()
-}
+	go watchForSignals()
 
-func checkInit() {
-	if !fileExists("./SYSTEM_INITIALIZED") {
-		checkDatabases()
-		//		createInit()
-	} else {
-		fmt.Println("Starting The BBS Daemon...")
+	// I'm using Viper for config management, it will look for a file called "config.yml"
+	viper.SetConfigName("config")
+	viper.AddConfigPath(".")
+	viper.SetConfigType("yaml")
+	viper.SetDefault(configPort, "2323")
+	viper.SetDefault(configLogPath, ".")
+
+	if err := viper.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+			log.Println("Config file (config.yml) not found, using the default configuration")
+		} else {
+			log.Printf("Error reading config file, falling back to default values")
+		}
 	}
-}
 
-func createInit() {
-	f, err := os.Create("./SYSTEM_INITIALIZED")
+	port := viper.GetInt(configPort)
+	logFilePath := viper.GetString(configLogPath)
+
+	r, err := chat.NewRoom("Torbit Chat Server", logFilePath)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
-	defer f.Close()
+	log.Fatal(listenAndServe(port, func(conn net.Conn) {
+		r.Join(chat.NewChannel(conn), conn.RemoteAddr())
+	}))
 }
 
-// read yaml file and print key value
-func checkDatabases() (*Databases, error) {
-	fmt.Printf("Checking Databases...\n")
-	databases := &Databases{}
-	file, err := os.Open("databases.yml")
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-	decoder := yaml.NewDecoder(file)
-	if err := decoder.Decode(&databases); err != nil {
-		return nil, err
-	}
+func watchForSignals() {
+	ch := make(chan os.Signal, 1)
 
-	return databases, nil
+	signal.Notify(ch, os.Kill, os.Interrupt)
+
+	<-ch
+	fmt.Println("\nGoodbye!")
+	os.Exit(0)
 }
 
-func fileExists(bbsfile string) bool {
-	info, err := os.Stat(bbsfile)
-	if os.IsNotExist(err) {
-		return false
+func listenAndServe(port int, handler func(net.Conn)) error {
+	server, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
+
+	if err != nil {
+		return NewServerError("Error starting server: %v", err)
 	}
-	return !info.IsDir()
+	defer server.Close()
+	log.Printf("Listening on port %d\n", port)
+
+	for {
+		conn, err := server.Accept()
+		if err != nil {
+			return NewServerError("Error accepting connection: %v", err)
+		}
+
+		go handler(conn)
+	}
 }
 
-func createDatabase(filename string) {
-	db, err := sql.Open("sqlite3", filename)
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer db.Close()
-	// create table
-	sql_table := `
-	CREATE TABLE IF NOT EXISTS user(
-		id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-		username TEXT,
-		password TEXT,
-		status TEXT,
-		lastlogin TEXT,
-		bulletins TEXT,
-		active BOOLEAN,
-		security TEXT,
-		messages TEXT,
-		tagline TEXT
-	);
-	`
-	_, err = db.Exec(sql_table)
-	if err != nil {
-		fmt.Println(err)
-	}
+// ServerError to throw
+type ServerError struct{ msg string }
+
+// NewServerError creates a ServerError with formated error mesage
+func NewServerError(msg string, cause error) *ServerError {
+	return &ServerError{fmt.Sprintf(msg, cause)}
+}
+
+func (e *ServerError) Error() string {
+	return e.msg
 }
