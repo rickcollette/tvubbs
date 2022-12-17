@@ -1,7 +1,7 @@
 package main
 
 import (
-	"chat"
+	"github.com/rickcollette/tvubbs-lib"
 	"fmt"
 	"github.com/spf13/viper"
 	"log"
