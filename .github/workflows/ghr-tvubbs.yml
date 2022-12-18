@@ -16,7 +16,6 @@ jobs:
           go get .
           go build  -v ./...
       - run: echo "🏁 The build completed successfully."
-      //copy binary to /usr/local/bin
       - name: Copy binary to /usr/local/bin
         run: |
           cp initbbs/initbbs /home/ghr/binaries
