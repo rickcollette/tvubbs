@@ -1,4 +1,4 @@
-package tvubbs
+package initbbs
 
 import (
 	"database/sql"

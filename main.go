@@ -4,8 +4,8 @@ import (
 	"flag"
 	"log"
 
-	"github.com/tywkeene/telnet-chat/config"
-	"github.com/tywkeene/telnet-chat/server"
+	"github.com/rickcollette/tvubbs/config"
+	"github.com/rickcollette/tvubbs/server"
 )
 
 func init() {
