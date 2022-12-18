@@ -1,4 +1,4 @@
-module github.com/rickcollette/tvubbs/v2
+module tvubbs
 
 go 1.19
 

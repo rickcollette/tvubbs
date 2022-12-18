@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/rickcollette/tvubbs/config"
-	"github.com/rickcollette/tvubbs/connection"
-	"github.com/rickcollette/tvubbs/room"
+	"tvubbs/config"
+	"tvubbs/connection"
+	"tvubbs/room"
 )
 
 type Server struct {

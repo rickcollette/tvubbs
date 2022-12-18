@@ -4,8 +4,8 @@ import (
 	"flag"
 	"log"
 
-	"github.com/rickcollette/tvubbs/config"
-	"github.com/rickcollette/tvubbs/server"
+	"tvubbs/config"
+	"tvubbs/server"
 )
 
 func init() {

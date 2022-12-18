@@ -6,7 +6,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/rickcollette/connection"
+	"tvubbs/connection"
 )
 
 type Room struct {
