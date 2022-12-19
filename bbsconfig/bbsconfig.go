@@ -8,6 +8,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+
 func LoadConfig() (*dbstruct.Sysconfig, error) {
 	fmt.Printf("Checking Databases...\n")
 	BaseConfig := &dbstruct.Sysconfig{}
@@ -20,13 +21,5 @@ func LoadConfig() (*dbstruct.Sysconfig, error) {
 	if err := decoder.Decode(&BaseConfig); err != nil {
 		return nil, err
 	}
-
-	Bbsname := BaseConfig.Bbsname
-	Sysop := BaseConfig.Sysop
-	BindAddr := BaseConfig.BindAddr
-	BindPort := BaseConfig.BindPort
-	Homedir := BaseConfig.Homedir
-	Rooms := BaseConfig.Rooms
-
 	return (BaseConfig), nil
 }

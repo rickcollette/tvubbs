@@ -8,9 +8,11 @@ import (
 	"strconv"
 	"time"
 
-	"tvubbs/bbsconfig"
 	"tvubbs/connection"
 	"tvubbs/room"
+	"tvubbs/dbstruct"
+
+	"gopkg.in/yaml.v3"
 
 	supportscolor "github.com/johnaoss/supports-color"
 	"honnef.co/go/tools/config"
@@ -194,7 +196,7 @@ func (s *Server) Serve() {
 
 // Initialize the rooms in a server
 func (s *Server) InitializeRooms() {
-	for _, roomName := range config.Config.Rooms {
+	for _, roomName := range BaseConfig.Rooms {
 		log.Printf("Initializing room %q\n", roomName)
 		s.Rooms = append(s.Rooms, &room.Room{
 			Name:        roomName,
@@ -204,14 +206,25 @@ func (s *Server) InitializeRooms() {
 	}
 }
 
+func LoadConfig() (*dbstruct.Sysconfig, error) {
+	fmt.Printf("Checking Databases...\n")
+	BaseConfig := &dbstruct.Sysconfig{}
+	file, err := os.Open("data/bbsconfig.yml")
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	decoder := yaml.NewDecoder(file)
+	if err := decoder.Decode(&BaseConfig); err != nil {
+		return nil, err
+	}
+	return (BaseConfig), nil
+}
+
 // Initiaize a new server with setttings read from the configuration file
 func NewServer() (*Server, error) {
 
-	BbsName := bbsconfig.BbsConfig.Bbsname
-	BindAddr := bbsconfig.BbsConfig.BindAddr
-	BindPort := bbsconfig.BbsConfig.BindPort
-	Homedir := bbsconfig.BbsConfig.Homedir
-	Rooms := bbsconfig.BbsConfig.Rooms
+	LoadConfig()
 
 	log.Println("Starting listener on", BindAddr)
 	listener, err := net.Listen("tcp4", BindAddr)
