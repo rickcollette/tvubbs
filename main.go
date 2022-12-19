@@ -8,6 +8,7 @@ import (
 	"tvubbs/server"
 )
 
+
 func init() {
 	configFile := flag.String("config", "etc/config.json", "configuration file to parse")
 	flag.Parse()

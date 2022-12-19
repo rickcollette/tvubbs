@@ -39,7 +39,7 @@ func checkInit() {
 		checkDatabases()
 		//		createInit()
 	} else {
-		fmt.Println("Starting The BBS Daemon...")
+		fmt.Println("System already initialized.\r\n Delete SYSTEM_INITIALIZED to reinitialize.")
 	}
 }
 

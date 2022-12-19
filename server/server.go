@@ -11,7 +11,11 @@ import (
 	"tvubbs/config"
 	"tvubbs/connection"
 	"tvubbs/room"
+
+	supportscolor "github.com/johnaoss/supports-color"
 )
+
+var HasAnsi bool = false
 
 type Server struct {
 	Running  bool
@@ -129,7 +133,27 @@ func (s *Server) HandleMessages(c *connection.Connection) {
 
 // Initialize the connection object and start a go routine to handle messaging with the client
 func (s *Server) HandleConnection(c *connection.Connection) {
-	username, err := c.SendWithResponse("Desired username: ")
+	ansi := supportscolor.GetSupportLevel()
+	if ansi.Has1m {
+		HasAnsi = true
+	} else if ansi.Has256 {
+		HasAnsi = true
+	} else if ansi.HasBasic {
+		HasAnsi = true
+	} else {
+		HasAnsi = false
+	}
+
+	prelog, err := os.ReadFile("ascii/prelog.txt")
+	if err != nil {
+		log.Println(err)
+		return
+	} else {
+		c.SendMessage(string(prelog))
+	}
+	c.SendMessage("\n")
+	c.SendMessage("If you are a new user, please enter NEW. Otherwise, enter your username.\n")
+	username, err := c.SendWithResponse("Username: ")
 	if err != nil || username == "" {
 		c.Close()
 		log.Println("User failed to enter username")
