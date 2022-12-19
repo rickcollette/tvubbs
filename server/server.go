@@ -8,14 +8,14 @@ import (
 	"strconv"
 	"time"
 
+	"tvubbs/bbsconfig"
 	"tvubbs/connection"
-	"tvubbs/room"
 	"tvubbs/dbstruct"
+	"tvubbs/room"
 
 	"gopkg.in/yaml.v3"
 
 	supportscolor "github.com/johnaoss/supports-color"
-	"honnef.co/go/tools/config"
 )
 
 var HasAnsi bool = false
@@ -196,7 +196,7 @@ func (s *Server) Serve() {
 
 // Initialize the rooms in a server
 func (s *Server) InitializeRooms() {
-	for _, roomName := range BaseConfig.Rooms {
+	for _, roomName := range bbsconfig.BbsConfig.Rooms {
 		log.Printf("Initializing room %q\n", roomName)
 		s.Rooms = append(s.Rooms, &room.Room{
 			Name:        roomName,
@@ -224,16 +224,10 @@ func LoadConfig() (*dbstruct.Sysconfig, error) {
 // Initiaize a new server with setttings read from the configuration file
 func NewServer() (*Server, error) {
 
-	LoadConfig()
+	BindAddr := bbsconfig.BbsConfig.BindAddr
 
 	log.Println("Starting listener on", BindAddr)
 	listener, err := net.Listen("tcp4", BindAddr)
-	if err != nil {
-		return nil, err
-	}
-
-	log.Printf("Opening message log file %q\n", config.Config.LogFile)
-	f, err := os.OpenFile(config.Config.LogFile, os.O_RDWR|os.O_CREATE, 0755)
 	if err != nil {
 		return nil, err
 	}
@@ -242,7 +236,6 @@ func NewServer() (*Server, error) {
 		Running:  true,
 		Listener: listener,
 		Rooms:    make([]*room.Room, 0),
-		LogFile:  f,
 	}
 
 	s.InitializeRooms()

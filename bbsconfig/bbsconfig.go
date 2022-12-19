@@ -8,18 +8,18 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+var BbsConfig *dbstruct.Sysconfig
 
-func LoadConfig() (*dbstruct.Sysconfig, error) {
+func LoadConfig() error {
 	fmt.Printf("Checking Databases...\n")
-	BaseConfig := &dbstruct.Sysconfig{}
 	file, err := os.Open("data/bbsconfig.yml")
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer file.Close()
 	decoder := yaml.NewDecoder(file)
-	if err := decoder.Decode(&BaseConfig); err != nil {
-		return nil, err
+	if err != nil {
+		return err
 	}
-	return (BaseConfig), nil
+	return decoder.Decode(&BbsConfig)
 }
