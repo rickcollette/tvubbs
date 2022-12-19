@@ -19,7 +19,7 @@ jobs:
       - run: echo "🏁 The build completed successfully."
       - name: Copy binary to /usr/local/bin
         run: |
-          cp initbbs/initbbs /home/ghr/binaries
+          cp initbbs /home/ghr/binaries
           cp tvubbs /home/ghr/binaries
       - run: echo "🏁 The copy completed successfully."
       - run: echo "🍏 This job's status is ${{ job.status }}."
