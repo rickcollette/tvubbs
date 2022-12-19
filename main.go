@@ -1,22 +1,14 @@
 package main
 
 import (
-	"flag"
 	"log"
 
-	"tvubbs/config"
+	"tvubbs/bbsconfig"
 	"tvubbs/server"
 )
 
-
 func init() {
-	configFile := flag.String("config", "etc/config.json", "configuration file to parse")
-	flag.Parse()
-
-	log.Println("Reading configuration file:", *configFile)
-	if err := config.ReadConfiguration(*configFile); err != nil {
-		log.Fatalf("Failed to parse configuration file %q: %s", *configFile, err.Error())
-	}
+	bbsconfig.LoadConfig()
 }
 
 func main() {

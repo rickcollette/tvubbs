@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	"tvubbs/config"
+	config "tvubbs/bbsconfig"
 	"tvubbs/connection"
 	"tvubbs/room"
 
