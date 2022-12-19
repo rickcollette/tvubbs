@@ -1,4 +1,4 @@
-package initbbs
+package main
 
 import (
 	"database/sql"
