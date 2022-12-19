@@ -27,14 +27,6 @@ type Server struct {
 	LogFile  *os.File
 }
 
-var helpMessage string = `
-These commands are available while you are in a room:
-/help: print this help message
-/name: change your username
-/leave: leave the current room and choose another
-/quit: disconnect from the server
-`
-
 // Return a stringified list of rooms
 func (s *Server) ListRooms() string {
 	str := "Available rooms:\n"
@@ -76,11 +68,11 @@ func (s *Server) SelectRoom(c *connection.Connection) error {
 	return nil
 }
 
-// Handle various user commands. Only available when in a room
-func (s *Server) HandleCommands(message string, c *connection.Connection) bool {
+// Handle various user chat commands. Only available when in a room
+func (s *Server) HandleChatCommands(message string, c *connection.Connection) bool {
 	switch message {
 	case "/help":
-		if err := c.SendMessage(helpMessage); err != nil {
+		if err := c.SendMessage("Help Message"); err != nil {
 			log.Println(err)
 			return true
 		}
@@ -116,7 +108,7 @@ func (s *Server) HandleMessages(c *connection.Connection) {
 			return
 		}
 
-		if s.HandleCommands(text, c) == true {
+		if s.HandleChatCommands(text, c) == true {
 			continue
 		}
 
@@ -134,6 +126,28 @@ func (s *Server) HandleMessages(c *connection.Connection) {
 	}
 }
 
+func (s *Server) MainMenu(c *connection.Connection) {
+	if err := c.SendMessage("Welcome to the TVU BBS!\n"); err != nil {
+		log.Println(err)
+		return
+	}
+
+	if err := s.SelectRoom(c); err != nil {
+		log.Println(err)
+		return
+	}
+
+	s.doChat(c)
+}
+
+func (s *Server) doChat(c *connection.Connection) {
+	if err := s.SelectRoom(c); err != nil {
+		log.Println(err)
+		return
+	}
+
+	go s.HandleMessages(c)
+}
 // Initialize the connection object and start a go routine to handle messaging with the client
 func (s *Server) HandleConnection(c *connection.Connection) {
 	ansi := supportscolor.GetSupportLevel()
@@ -171,7 +185,7 @@ func (s *Server) HandleConnection(c *connection.Connection) {
 		c.Close()
 		return
 	}
-	go s.HandleMessages(c)
+	s.MainMenu(c)
 }
 
 // Start the server's room go-routines, start the tcp listener and handle incoming connections

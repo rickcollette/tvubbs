@@ -1,0 +1,10 @@
+[ascii/notfound.txt]
+
+The file I am looking for does not exist.
+I am terribly sorry.
+
+Please notify the SysOp.
+
+Thank you,
+
+  - One Thumb

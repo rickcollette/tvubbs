@@ -25,7 +25,7 @@ type Sysconfig struct {
 type MessageBaseIdx struct {
 	Name   string `yaml:"name"`
 	Level  string `yaml:"level"`
-	Desc   string `yaml:"desc"`
+	Desc   string `yaml:"description"`
 	Status string `yaml:"status"`
 	Type   string `yaml:"type"`
 }
@@ -36,4 +36,20 @@ type MessageBaseData struct {
 	Date      string
 	Subject   string
 	Body      string
+}
+
+type MenuStruct struct {
+	Name string `yaml:"name"`
+	Desc string `yaml:"description"`
+	File string `yaml:"file"`
+	Level string `yaml:"level"`
+	Status string `yaml:"status"`
+}
+
+type MenuData struct {
+	Command string `yaml:"command"`
+	Shortcut string `yaml:"shortcut"`
+	Type string `yaml:"type"`
+	Arguments string `yaml:"arguments"`
+	Level string `yaml:"level"`
 }
