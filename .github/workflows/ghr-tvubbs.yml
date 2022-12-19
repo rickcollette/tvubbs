@@ -14,7 +14,7 @@ jobs:
       - name: Building...
         run: |
           go get .
-          go build -v ./initbbs
+          go build -v ./cmd/initbbs
           go build -v .
       - run: echo "🏁 The build completed successfully."
       - name: Copy binary to /usr/local/bin
