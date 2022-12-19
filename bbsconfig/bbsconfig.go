@@ -10,16 +10,23 @@ import (
 
 func LoadConfig() (*dbstruct.Sysconfig, error) {
 	fmt.Printf("Checking Databases...\n")
-	bbsconfig := &dbstruct.Sysconfig{}
+	BaseConfig := &dbstruct.Sysconfig{}
 	file, err := os.Open("data/bbsconfig.yml")
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 	decoder := yaml.NewDecoder(file)
-	if err := decoder.Decode(&bbsconfig); err != nil {
+	if err := decoder.Decode(&BaseConfig); err != nil {
 		return nil, err
 	}
 
-	return bbsconfig, nil
+	Bbsname := BaseConfig.Bbsname
+	Sysop := BaseConfig.Sysop
+	BindAddr := BaseConfig.BindAddr
+	BindPort := BaseConfig.BindPort
+	Homedir := BaseConfig.Homedir
+	Rooms := BaseConfig.Rooms
+
+	return (BaseConfig), nil
 }

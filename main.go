@@ -3,12 +3,11 @@ package main
 import (
 	"log"
 
-	"tvubbs/bbsconfig"
 	"tvubbs/server"
 )
 
 func init() {
-	bbsconfig.LoadConfig()
+	// do initialization stuff here.. maybe
 }
 
 func main() {

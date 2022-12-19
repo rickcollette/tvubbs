@@ -1,0 +1,8 @@
+# Description: TVUBBS configuration file
+sysconfig:
+  bbsname: TEXT
+  sysop: TEXT
+  bindaddr: TEXT
+  bindport: INTEGER
+  homedir: TEXT
+  rooms: TEXT

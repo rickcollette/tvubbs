@@ -1,0 +1,11 @@
+messagebase:
+  general:
+    description: "General Messages"
+    level: "5"
+    status: "unlocked"
+    type: "local"
+  atari 8bit:
+    description: "All things atari 8-bit"
+    level: "5"
+    status: "unlocked"
+    type: "local"

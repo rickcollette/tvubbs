@@ -8,11 +8,12 @@ import (
 	"strconv"
 	"time"
 
-	config "tvubbs/bbsconfig"
+	"tvubbs/bbsconfig"
 	"tvubbs/connection"
 	"tvubbs/room"
 
 	supportscolor "github.com/johnaoss/supports-color"
+	"honnef.co/go/tools/config"
 )
 
 var HasAnsi bool = false
@@ -206,10 +207,14 @@ func (s *Server) InitializeRooms() {
 // Initiaize a new server with setttings read from the configuration file
 func NewServer() (*Server, error) {
 
-	bindAddr := config.Config.BindAddr + ":" + config.Config.BindPort
+	BbsName := bbsconfig.BbsConfig.Bbsname
+	BindAddr := bbsconfig.BbsConfig.BindAddr
+	BindPort := bbsconfig.BbsConfig.BindPort
+	Homedir := bbsconfig.BbsConfig.Homedir
+	Rooms := bbsconfig.BbsConfig.Rooms
 
-	log.Println("Starting listener on", bindAddr)
-	listener, err := net.Listen("tcp4", bindAddr)
+	log.Println("Starting listener on", BindAddr)
+	listener, err := net.Listen("tcp4", BindAddr)
 	if err != nil {
 		return nil, err
 	}
