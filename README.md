@@ -3,6 +3,8 @@
 
 ---
 
+![Build Status](https://github.com/rickcollette/tvubbs/actions/workflows/ghr-tvubbs.yml/badge.svg?event=push)
+
 ![The Vulgar Unicorn BBS](tvu_image.png)
 
 ---
