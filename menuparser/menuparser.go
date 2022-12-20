@@ -26,7 +26,16 @@ func ParseMenu(c *dbstruct.MenuStruct) {
 		PrintMenu(ErrorFile)
 		return
 	}
-	if c.MenuType == "menu" {
+	if c.Type == "menu" {
 		PrintMenu(c.MenuFile)
 	} else if c.MenuType == "command" {
-		
+
+	}
+}
+
+func GetMenuName(name string) *dbstruct.MenuStruct {
+	for _, v := range bbsconfig.MenuConfig.Name {
+		if v == name {
+			
+			return v
+		}

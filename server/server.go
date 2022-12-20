@@ -235,6 +235,21 @@ func LoadConfig() (*dbstruct.Sysconfig, error) {
 	return (BaseConfig), nil
 }
 
+func LoadMenuConfig() (*dbstruct.MenuStruct, error) {
+	fmt.Printf("Checking Databases...\n")
+	BaseConfig := &dbstruct.MenuStruct{}
+	file, err := os.Open("data/menus.yml")
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	decoder := yaml.NewDecoder(file)
+	if err := decoder.Decode(&BaseConfig); err != nil {
+		return nil, err
+	}
+	return (BaseConfig), nil
+}
+
 // Initiaize a new server with setttings read from the configuration file
 func NewServer() (*Server, error) {
 
