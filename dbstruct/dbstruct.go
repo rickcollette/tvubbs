@@ -11,6 +11,8 @@ type Userdb struct {
 	Messages  string
 	Tagline   string
 	Available string
+	Location  string
+	Terminal  string
 }
 
 type Sysconfig struct {

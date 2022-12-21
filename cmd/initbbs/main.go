@@ -94,7 +94,10 @@ func createDatabase(filename string) {
 		active BOOLEAN,
 		security TEXT,
 		messages TEXT,
-		tagline TEXT
+		tagline TEXT,
+		available BOOLEAN,
+		location TEXT,
+		terminal TEXT
 	);
 	`
 	_, err = db.Exec(sql_table)

@@ -150,6 +150,7 @@ func (s *Server) doChat(c *connection.Connection) {
 }
 // Initialize the connection object and start a go routine to handle messaging with the client
 func (s *Server) HandleConnection(c *connection.Connection) {
+// check the user's terminal for ANSI support
 	ansi := supportscolor.GetSupportLevel()
 	if ansi.Has1m {
 		HasAnsi = true
