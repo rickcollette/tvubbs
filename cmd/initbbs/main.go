@@ -20,6 +20,9 @@ type Databases struct {
 		Security  string `yaml:"security"`
 		Messages  string `yaml:"messages"`
 		Tagline   string `yaml:"tagline"`
+		Available string `yaml:"available"`
+		Location  string `yaml:"location"`
+		Terminal  string `yaml:"terminal"`
 	} `yaml:"userdb"`
 	Sysconfig struct {
 		Bbsname    string `yaml:"bbsname"`
