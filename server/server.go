@@ -19,6 +19,7 @@ import (
 )
 
 var HasAnsi bool = false
+var commandPrompt string = "[ Command or ? for Help ] >> "
 
 type Server struct {
 	Running  bool
@@ -66,6 +67,20 @@ func (s *Server) SelectRoom(c *connection.Connection) error {
 	c.Room = roomIndex
 
 	return nil
+}
+
+func (s *Server) processCommands(command string, c *connection.Connection) {
+	//BindAddr := bbsconfig.BbsConfig.BindAddr
+	switch command {
+	case "help":
+		c.SendMessage("Help message")
+	case "rooms":
+		c.SendMessage(s.ListRooms())
+	case "join":
+		s.SelectRoom(c)
+	case "quit":
+		c.Close()
+	}
 }
 
 // Handle various user chat commands. Only available when in a room

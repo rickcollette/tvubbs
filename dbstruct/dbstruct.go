@@ -41,6 +41,7 @@ type MessageBaseData struct {
 }
 
 type MenuStruct struct {
+	MenuNumber string `yaml:"menus"`
 	Name string `yaml:"name"`
 	Desc string `yaml:"description"`
 	File string `yaml:"file"`
@@ -49,6 +50,8 @@ type MenuStruct struct {
 }
 
 type MenuData struct {
+	CommandNumber string `yaml:"commands"`
+    MenuNumber string `yaml:"menu"`
 	Command string `yaml:"command"`
 	Shortcut string `yaml:"shortcut"`
 	Type string `yaml:"type"`

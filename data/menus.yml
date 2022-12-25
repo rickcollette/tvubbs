@@ -1,25 +1,25 @@
-menus:
-  mainmenu:
+menus: 4
+  menu0:
     name: "Main Menu"
     description: "BBS Main Menu"
-    file: "mainmenu"
+    command: "mainmenu"
     level: "0"
     status: "unlocked"
-  messages:
+  menu1:
     name: "Message Menu"
     description: "Message Menu"
-    file: "messagebases"
+    command: "messages"
     level: "1"
     status: "unlocked"
-  files:
+  menu2:
     name: "File Menu"
     description: "File Menu"
-    file: "filebases"
+    command: "files"
     level: "1"
     status: "unlocked"
-  chat:
+  menu3:
     name: "Chat Menu"
     description: "Chat Menu"
-    file: "chat"
+    command: "chat"
     level: "0"
     status: "unlocked"
